@@ -1,0 +1,51 @@
+const uint8_t static FULL = 0x3F;
+const uin8_t static HALF = 0x20;
+
+void InterpretNumber(uint16_t number) {
+  uint8_t i = 0;
+  if(number > 10) {
+    uint8_t digit[2] = {0,0};
+    
+    while(number != 0)  {
+      digit[i] = number % 10;
+      i++;
+      number = number / 10;
+      digit[i] = number;
+    }
+    LoadNumber(digit,i,FULL);
+  }
+  else  {
+    LoadNumber(number,i,FULL);
+  }
+}
+
+void LoadNumber(uint8_t * digit,int size, uint8_t brightness) {
+  
+  uint8_t i = 0;
+  uint8_t j = 0;
+  
+  for(j=0; j<=size; j++)  {
+      uint8_t mask = 1;
+      uint8_t number = index[digit[j]];
+    for(i=0; i<8;i++) {
+      if(number & mask) 
+        LPC_SSP0->DR = 0x00;
+      else
+        LPC_SSP0->DR = brightness;
+      mask= mask << 1;
+      }
+    }
+}
+
+{{
+//Calling function for numbers
+while(1)  {
+  uint16_t number = 00;
+  InterpetNumber(numer);
+  number = number + 1;
+  if(number ==99)
+    number = 00;
+}
+
+
+}}
